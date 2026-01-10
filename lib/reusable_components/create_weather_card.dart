@@ -5,8 +5,9 @@ import 'package:weather/misc/requestWeather.dart';
 import 'dart:math';
 import 'package:intl/intl.dart';
 
+
 class CreateWeatherCard extends StatefulWidget {
-  const CreateWeatherCard({super.key, required this.city, required this.longPressFunction});
+  const CreateWeatherCard({super.key, required this.city,  required this.longPressFunction});
   final String city;
   final VoidCallback longPressFunction;
 
@@ -17,7 +18,7 @@ class CreateWeatherCard extends StatefulWidget {
 
 class  _CreateWeatherCardState extends State <CreateWeatherCard> {
 
-  int temp = 0;
+  int temp = 0; // temp will be shown 0 when weather data is not fetched yet
   late dynamic weatherData;
 
   late int feelsLike;
@@ -74,6 +75,7 @@ class  _CreateWeatherCardState extends State <CreateWeatherCard> {
         padding: const EdgeInsets.all(10.0),
         child: GestureDetector(
           onTap: () {
+            // when user presses on card data will be sent to next screen
             Navigator.push(context, MaterialPageRoute(builder: (context) => CityWeatherCard(cityName: widget.city,
                 temp: temp, feelsLikeTemp: feelsLike, pressure: press, humidity: hum, windSpeed: windSpd, tempMinimum: tempMin, tempMaximum: tempMax ,
                 sunrise: sunRise, sunset: sunSet, weatherDiscription: weatherDiscrpt, weatherID: weatherId,

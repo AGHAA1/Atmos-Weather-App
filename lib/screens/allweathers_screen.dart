@@ -49,20 +49,42 @@ class _WeatherScreenState extends State <WeatherScreen> {
         //storage and create weather card for each city
         String cityName = allUpdatedCities[i];//storing cityName in variable
 
-        allWeathers.add(CreateWeatherCard(city: cityName, longPressFunction: () {
+        allWeathers.add(CreateWeatherCard(key : ValueKey(cityName), city: cityName, longPressFunction: () {
 
           setState(() {
             storage.deleteCity(cityName);// calling delete function from storage class this will trigger on long press
-            allWeathers.removeWhere((weatherCard) => weatherCard.city == cityName) ;//this will remove weather card from allWeathers list how this works is that..
+            allWeathers.removeWhere((weatherCard) {
+
+
+              return weatherCard.city == cityName;
+            }) ;//this will remove weather card from allWeathers list how this works is that..
             //.. it searches for widgets and check for specific property in that widget in that case weatherCard.city
+
+
+
           });
+
 
 
         },)); //this will create weather card for each city in array of allCities;
       }
     });
 
+
+
   }
+
+
+
+
+
+
+
+
+
+
+
+
   @override
   Widget build (BuildContext context) {
     return Scaffold(
@@ -90,10 +112,13 @@ class _WeatherScreenState extends State <WeatherScreen> {
 
 
               if (isCityAdded) {
-                setState(() {
+
+
                   createNewWeatherCards();
                   isCityAdded = false;
-                });
+
+
+
               }
 
 
