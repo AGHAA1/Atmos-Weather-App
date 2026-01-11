@@ -32,6 +32,10 @@ class  _CreateWeatherCardState extends State <CreateWeatherCard> {
   late int weatherId;
   late String weatherDiscrpt ;
   late String weatherI; //weather icon
+
+
+  bool navigateToFullWeatherScreen = false; // if user entered correct city and our try block got succeeded without..
+  //...catching any error then this will become true and user can navigate to next screen which is full city weather
   @override
   void initState () {
     getWeather();
@@ -52,21 +56,30 @@ class  _CreateWeatherCardState extends State <CreateWeatherCard> {
 
   void getWeather ()  async {
     RequestWeather requestWeather = RequestWeather(cityName : widget.city);
-    weatherData = await requestWeather.getWeather();
 
-     setState(() {
-       temp = weatherData['main']['temp'].round();
-       feelsLike = weatherData['main']['feels_like'].round();
-       press = weatherData['main']['pressure'];
-       hum = weatherData['main']['humidity'];
-       windSpd = (weatherData['wind']['speed']).floor();
-       tempMin = weatherData['main']['temp_min'].round();
-       tempMax = weatherData['main']['temp_max'].round();
-       weatherId = weatherData['weather'][0]['id'];
-       weatherDiscrpt = weatherData['weather'][0]['description'];
-       weatherI = weatherData['weather'][0]['icon'];
-       formatSunRiseAndSet ();
-     });
+    try {
+      weatherData = await requestWeather.getWeather();
+
+      setState(() {
+        temp = weatherData['main']['temp'].round();
+        feelsLike = weatherData['main']['feels_like'].round();
+        press = weatherData['main']['pressure'];
+        hum = weatherData['main']['humidity'];
+        windSpd = (weatherData['wind']['speed']).floor();
+        tempMin = weatherData['main']['temp_min'].round();
+        tempMax = weatherData['main']['temp_max'].round();
+        weatherId = weatherData['weather'][0]['id'];
+        weatherDiscrpt = weatherData['weather'][0]['description'];
+        weatherI = weatherData['weather'][0]['icon'];
+        formatSunRiseAndSet ();
+
+        navigateToFullWeatherScreen = true; //setting it true at end of try block so that user can navigate to next screen
+      });
+    }catch(error) {
+      print(error);
+      navigateToFullWeatherScreen = false; // setting it false if try block fails
+    }
+
   }
   @override
   Widget build(BuildContext context) {
@@ -75,13 +88,19 @@ class  _CreateWeatherCardState extends State <CreateWeatherCard> {
         padding: const EdgeInsets.all(10.0),
         child: GestureDetector(
           onTap: () {
-            // when user presses on card data will be sent to next screen
-            Navigator.push(context, MaterialPageRoute(builder: (context) => CityWeatherCard(cityName: widget.city,
+
+            print('navigate to full screen : $navigateToFullWeatherScreen');
+            if (navigateToFullWeatherScreen == true) {
+
+              Navigator.push(context, MaterialPageRoute(builder: (context) => CityWeatherCard(cityName: widget.city,
                 temp: temp, feelsLikeTemp: feelsLike, pressure: press, humidity: hum, windSpeed: windSpd, tempMinimum: tempMin, tempMaximum: tempMax ,
                 sunrise: sunRise, sunset: sunSet, weatherDiscription: weatherDiscrpt, weatherID: weatherId,
                 weatherIcon: weatherI,)
 
-            ));
+              ));
+            }
+            // when user presses on card data will be sent to next screen
+
           },
           onLongPress: widget.longPressFunction,
           child: Container(
