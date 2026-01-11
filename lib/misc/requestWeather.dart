@@ -28,7 +28,8 @@ class RequestWeather {
 
         return weatherData; //returning full weather profile
       }else {
-        print ('Bad status code ${weatherDataJson.statusCode}');
+
+          return 'client side error';
       }
     }catch (error) {
       print('something went wrong $error');
