@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:weather/reusable_components/my_components.dart';
 import 'package:weather/reusable_components/create_weather_card.dart';
 import 'package:weather/saving.dart';
-
+import 'package:provider/provider.dart';
+import 'package:weather/data.dart';
 
 
 class WeatherScreen extends StatefulWidget {
@@ -16,66 +17,25 @@ class _WeatherScreenState extends State <WeatherScreen> {
 
   late String cityName;
   bool isCityAdded = false;
-  List <CreateWeatherCard> allWeathers = []; // weathers for different cities are stored here full weather card not literal city names.
-  List <String> allUpdatedCities = []; //will store added cities here and then save to local storage using sharedPrefs
 
   Storage storage = Storage(); //creating object of storage class
 
-
-
   @override
   void initState () { //using state lifecycle which runs when widget is created before build method
-    fetchStorage();
+
+    context.read<Data>().fetchStorage(); //this will fetch user data
     super.initState();
   }
 
 
-  void fetchStorage () async { // this function fetches storage from local storage
-    allUpdatedCities = await storage.createStorage();
-    createNewWeatherCards();
-  }
 
 
-  bool checkBeforeAddingCity () {
-    if (cityName.isNotEmpty && !allUpdatedCities.contains(cityName)) {
-      return true;
-    }
-    return false;
-  }
+  bool checkBeforeAddingCity(String cityName) {
 
-  void createNewWeatherCards () { //This will create weather and add it to all weathers list
-    setState(() {
-      for (int i = 0 ; i < allUpdatedCities.length; i ++) { //for loop loop over updatedCities that we got from local
-        //storage and create weather card for each city
-        String cityName = allUpdatedCities[i];//storing cityName in variable
-
-        allWeathers.add(CreateWeatherCard(key : ValueKey(cityName), city: cityName, longPressFunction: () {
-
-          setState(() {
-            storage.deleteCity(cityName);// calling delete function from storage class this will trigger on long press
-            allWeathers.removeWhere((weatherCard) {
-
-
-              return weatherCard.city == cityName;
-            }) ;//this will remove weather card from allWeathers list how this works is that..
-            //.. it searches for widgets and check for specific property in that widget in that case weatherCard.city
-
-
-
-          });
-
-
-
-        },)); //this will create weather card for each city in array of allCities;
-      }
-    });
-
+    return context.read<Data>().checkIfCityExists(cityName);
 
 
   }
-
-
-
 
 
 
@@ -93,33 +53,29 @@ class _WeatherScreenState extends State <WeatherScreen> {
         backgroundColor: Colors.white,
           child: Icon(Icons.cloud_rounded),
           onPressed: () async {
-            if (allWeathers.length <= 4) { //number of weathers user can add
+            if (context.read<Data>().allWeathers.length <= 4) { //number of weathers user can add
               await showDialog(context: context, builder: (context) { //show dialog is future
                 return CreateAlertDialog(onChangedFunc: (value) {
                   cityName = value;
                 }, onPressedFunc: () {
 
-                  if (checkBeforeAddingCity()) {
+
+                 if (checkBeforeAddingCity(cityName)) { //checking that city was not added before or is not empty
                     isCityAdded = true; //only if user pressed add we say isCityAdded is true
-                    allUpdatedCities.clear();//clear before for loop runs in weather card function to avoid repeating of cities
-                    allUpdatedCities.add(cityName); //adding city name to array of cities when user presses add in dialog
+                    context.read<Data>().clearUpdatedCities();//clear before for loop runs in weather card function to avoid repeating of cities
+                    // ...as it already will contain cities when user open apps and data from local gets stored
+                    context.read<Data>().addCity(cityName); //adding city name to array of cities when user presses add in dialog
                     storage.saveCity(cityName); //this will save city to local storage
                     Navigator.pop(context); //this will destroy dialog after user presses add
-                  }
+                 }else {
+                   print('already exists');
+                 }
 
                 },);
               });// showDialog ends here
 
 
-              if (isCityAdded) {
 
-
-                  createNewWeatherCards();
-                  isCityAdded = false;
-
-
-
-              }
 
 
             }
@@ -143,7 +99,7 @@ class _WeatherScreenState extends State <WeatherScreen> {
 
 
         body: Column (
-          children: allWeathers,
+          children: context.watch<Data>().getAllWeathers()
         ),
     );
   }
