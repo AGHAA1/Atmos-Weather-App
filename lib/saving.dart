@@ -7,9 +7,13 @@ class Storage {
 
   Future<dynamic> createStorage ()  async {
     final prefs = await SharedPreferences.getInstance();
-    List<String> allCities = [];
-    if (!prefs.containsKey('cities')) {
+
+
+
+    List<String> allCities = []; //creating array where i will stored fetched data from local
+    if (!prefs.containsKey('cities')) { //checking if local storage contains cities array if not then create it
       prefs.setStringList('cities', allCities); //creating array inside local storage named cities and giving it array of strings
+      return allCities;
     }else {
       allCities = prefs.getStringList('cities')!; //getting array of strings from local storage and assigning it to array of strings
       return allCities;
@@ -19,9 +23,12 @@ class Storage {
 
 
   void saveCity (String cityToSave) async  {
+
+
     final prefs = await SharedPreferences.getInstance();
     List <String>?  cities =  prefs.getStringList('cities');
     cities!.add(cityToSave);
+    print(cities);
     prefs.setStringList('cities', cities);
 
   }
