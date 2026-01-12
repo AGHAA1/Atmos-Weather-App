@@ -29,6 +29,7 @@ cd Atnos-Weather-App
 flutter pub get
 ```
 4. In the `lib` directory, create a new folder named `config`. Inside it, create a Dart file named `api_key.dart`.
+
 5. Copy and paste this code:
 
 ```dart
@@ -37,6 +38,7 @@ class APIKEY {
 }
 ```
 
+6. App is ready now
 
 Screenshots:
 
