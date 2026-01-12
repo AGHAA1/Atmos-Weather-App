@@ -1,13 +1,29 @@
-In order for this app to work you need your own api key once you get it from openWeather (https://openweathermap.org/api) follow steps below
+A Flutter-based weather application that allows users to track weather for up to 5 cities.  
+Uses **Provider** for state management and **SharedPreferences** for local data persistence.  
 
-step 1 : In lib directory create a new directory named 'config' and inside this new directory create dart file named 'api_key'
-step 2 : copy paste this code        class APIKEY {
-                                          final apiKey = 'paste your api key here from open weahter api';
-                                      }
+## Features
+- Add and manage up to 5 cities with validation and constraints
+- Fetch and display real-time weather data using OpenWeather API
+- Persistent storage of user-selected cities with SharedPreferences
+- Handles loading, success, and error states efficiently
+- Responsive and user-friendly UI built with Flutter widgets
 
-step 3: paste your api key and app is ready 
 
-let me know if you need an api key to test.
+
+
+## Setup Instructions
+In order for this app to work, you need your own API key from OpenWeather: [https://openweathermap.org/api](https://openweathermap.org/api)
+
+### Steps to set up
+
+1. In the `lib` directory, create a new folder named `config`. Inside it, create a Dart file named `api_key.dart`.
+2. Copy and paste this code:
+
+```dart
+class APIKEY {
+  final apiKey = 'paste your API key here';
+}
+```
 
 
 Screenshots:
