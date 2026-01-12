@@ -1,5 +1,6 @@
 A Flutter-based weather application that allows users to track weather for up to 5 cities.  
 Uses **Provider** for state management and **SharedPreferences** for local data persistence.  
+# Atmos-Weather-App (Flutter)
 
 ## Features
 - Add and manage up to 5 cities with validation and constraints
@@ -15,9 +16,20 @@ Uses **Provider** for state management and **SharedPreferences** for local data 
 In order for this app to work, you need your own API key from OpenWeather: [https://openweathermap.org/api](https://openweathermap.org/api)
 
 ### Steps to set up
-
-1. In the `lib` directory, create a new folder named `config`. Inside it, create a Dart file named `api_key.dart`.
-2. Copy and paste this code:
+1. Clone the repository
+```bash
+git clone
+```
+2. Navigate to the project directory
+```bash
+cd Atnos-Weather-App
+```
+3. Install dependencies
+```bash
+flutter pub get
+```
+4. In the `lib` directory, create a new folder named `config`. Inside it, create a Dart file named `api_key.dart`.
+5. Copy and paste this code:
 
 ```dart
 class APIKEY {
