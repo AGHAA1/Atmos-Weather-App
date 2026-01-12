@@ -18,7 +18,7 @@ In order for this app to work, you need your own API key from OpenWeather: [http
 ### Steps to set up
 1. Clone the repository
 ```bash
-git clone
+git clone https://github.com/AGHAA1/Atmos-Weather-App.git
 ```
 2. Navigate to the project directory
 ```bash
