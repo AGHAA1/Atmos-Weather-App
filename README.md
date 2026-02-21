@@ -22,7 +22,7 @@ git clone https://github.com/AGHAA1/Atmos-Weather-App.git
 ```
 2. Navigate to the project directory
 ```bash
-cd Atnos-Weather-App
+cd Atmos-Weather-App
 ```
 3. Install dependencies
 ```bash
