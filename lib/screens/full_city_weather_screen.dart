@@ -20,6 +20,9 @@ class CityWeatherCard extends StatefulWidget {
     required this.weatherID,
     required this.weatherDiscription,
     required this.weatherIcon,
+    required this.weatherAQI,
+    required this.weatherAqiCategory,
+    required this.aqiCategoryColor,
   });
   //i will pass all things that i need to show in this card
   final String cityName;
@@ -35,6 +38,9 @@ class CityWeatherCard extends StatefulWidget {
   final int weatherID;
   final String weatherDiscription;
   final String weatherIcon;
+  final String weatherAQI;
+  final String weatherAqiCategory;
+  final Color aqiCategoryColor;
 
   @override
   State<CityWeatherCard> createState() => _CityWeatherCardState();
@@ -61,15 +67,6 @@ class _CityWeatherCardState extends State<CityWeatherCard>
     super.dispose();
   }
 
-  //this function will check if animation received contains file or is empty
-  // String fetchAndCheckIfAnimationEmpty () {
-  //   final  weatherAnimation =  Weather().giveAnimation(widget.weatherIcon);
-  //
-  //   if (weatherAnimation != ''){
-  //     return weatherAnimation;
-  //   }
-  //   return weatherAnimation ; //is empty
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -157,15 +154,86 @@ class _CityWeatherCardState extends State<CityWeatherCard>
                                 ),
                               ),
 
+
+
+                              // row that has weathe disc and aqi
                               Expanded(
                                 child: Row( //weather discription
                                   children: [
-                                    Text(
-                                      widget.weatherDiscription,
-                                      style: Theme.of(
-                                        context,
-                                      ).textTheme.bodySmall,
+                                    Expanded(
+                                      flex: 2,
+                                        child: Text(
+                                        widget.weatherDiscription,
+                                        style: Theme.of(
+                                          context,
+                                        ).textTheme.bodySmall,
+                                      ),
                                     ),
+
+
+                                    Expanded(
+
+
+                                      //column for aqi text and container and inside container there is column again for aqi value and its category
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                                        children: [
+                                          Align(
+                                            alignment: Alignment.center,
+                                            child: Text (
+                                                'AQI',
+                                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                                fontSize : 15
+                                              )
+                                            ),
+                                          ),
+                                          Container (
+
+                                            height: 60,
+                                            decoration: BoxDecoration (
+                                              borderRadius: BorderRadius.circular(10),
+                                              color: widget.aqiCategoryColor,
+
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black,
+                                                  spreadRadius: 1,
+                                                  blurRadius: 3
+                                                )
+                                              ]
+                                            ),
+
+                                            child:  Column(
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    widget.weatherAQI,
+                                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                                      fontSize: 20,
+                                                        color: Colors.black
+
+                                                    )
+                                                  ),
+                                                ),
+
+                                                Expanded(
+                                                  child: Text (
+                                                    widget.weatherAqiCategory,
+                                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                                      fontSize: 20,
+                                                      color: Colors.black
+
+                                                    )
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+
                                   ],
                                 ),
                               ),

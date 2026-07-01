@@ -23,7 +23,7 @@ class Data extends ChangeNotifier {
   void createNewWeatherCards (List<String> allUpdatedCities) { //This will create weather and add it to all weathers list
     for (int i = 0 ; i < allUpdatedCities.length; i ++) { //for loop loop over updatedCities that we got from local
       //storage and create weather card for each city
-      print('isnide for loop');
+      //print('isnide for loop');
       String cityName = allUpdatedCities[i];//storing cityName in variable
       allWeathers.add(CreateWeatherCard(key : ValueKey(cityName), city: cityName, longPressFunction: () {
 

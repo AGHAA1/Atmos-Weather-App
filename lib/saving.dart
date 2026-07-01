@@ -28,7 +28,7 @@ class Storage {
     final prefs = await SharedPreferences.getInstance();
     List <String>?  cities =  prefs.getStringList('cities');
     cities!.add(cityToSave);
-    print(cities);
+  //  print(cities);
     prefs.setStringList('cities', cities);
 
   }
